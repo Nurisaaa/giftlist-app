@@ -2,10 +2,8 @@ package com.example.giftlistb8.api;
 
 import com.example.giftlistb8.dto.SimpleResponse;
 import com.example.giftlistb8.dto.wish.requests.WishRequest;
-import com.example.giftlistb8.dto.wish.response.GlobalSearchWish;
 import com.example.giftlistb8.dto.wish.responses.WishResponse;
 import com.example.giftlistb8.services.WishService;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
