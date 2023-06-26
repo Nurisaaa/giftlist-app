@@ -3,7 +3,6 @@ package com.example.giftlistb8.repositories;
 
 import com.example.giftlistb8.dto.profile.response.ProfileResponse;
 import com.example.giftlistb8.dto.profile.response.ProfileResponseGetById;
-import com.example.giftlistb8.dto.user.response.GlobalSearchFriend;
 import com.example.giftlistb8.dto.user.response.UserResponseGetAll;
 import com.example.giftlistb8.entities.User;
 

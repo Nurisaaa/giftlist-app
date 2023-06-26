@@ -3,7 +3,6 @@ package com.example.giftlistb8.api;
 import com.example.giftlistb8.dto.PaginationResponse;
 import com.example.giftlistb8.dto.SimpleResponse;
 import com.example.giftlistb8.dto.user.requests.UpdateBlockStatus;
-import com.example.giftlistb8.dto.user.response.GlobalSearchFriend;
 import com.example.giftlistb8.dto.user.response.UserResponseGetAll;
 import com.example.giftlistb8.dto.user.response.UserResponseGetById;
 import com.example.giftlistb8.services.UserService;
