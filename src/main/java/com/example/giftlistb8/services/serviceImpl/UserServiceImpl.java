@@ -101,7 +101,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserResponseGetAll> search(String keyWord) {
-        return userRepository.globalSearch(keyWord);
+        Long id = jwtService.getUserInToken().getId();
+        return userRepository.searchFriends(keyWord,id);
     }
 }
 

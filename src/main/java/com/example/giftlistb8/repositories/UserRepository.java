@@ -80,4 +80,20 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "ORDER BY u.id DESC")
     List<UserResponseGetAll> globalSearch(@Param("keyword") String keyword);
 
+    @Query("SELECT NEW com.example.giftlistb8.dto.user.response.UserResponseGetAll" +
+            "(f.id, fu.image, CONCAT(f.lastName, ' ', f.firstName), CAST(count(fw.id) AS int), f.isBlocked) " +
+            "FROM User u " +
+            "LEFT JOIN u.userInfo ui " +
+            "LEFT JOIN u.wishes w " +
+            "LEFT JOIN u.friends f " +
+            "LEFT JOIN f.userInfo fu " +
+            "LEFT JOIN f.wishes fw " +
+            "WHERE u.id = :id AND" +
+            "  (LOWER(f.firstName) LIKE LOWER(CONCAT('%', :keyword, '%'))) OR " +
+            "  (LOWER(f.lastName) LIKE LOWER(CONCAT('%', :keyword, '%'))) OR " +
+            "  (LOWER(f.userInfo.phoneNumber) LIKE LOWER(CONCAT('%', :keyword, '%'))) OR " +
+            "  (LOWER(f.userInfo.country) LIKE LOWER(CONCAT('%', :keyword, '%'))) " +
+            "GROUP BY f.id, fu.image, f.lastName, f.firstName, f.isBlocked " +
+            "ORDER BY f.id DESC")
+    List<UserResponseGetAll> searchFriends(String keyWord, Long id);
 }

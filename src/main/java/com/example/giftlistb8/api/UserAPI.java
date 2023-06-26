@@ -52,9 +52,16 @@ public class UserAPI {
     public SimpleResponse blockUser(@RequestBody @Valid UpdateBlockStatus updateBlockStatus) {
         return service.updateBlockedStatus(updateBlockStatus);
     }
-    @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "The method for searching users",description = "Global search")
     @GetMapping("/search")
+    public List<UserResponseGetAll> searchUsers(@RequestParam(required = false)String keyWord){
+        return service.search(keyWord);
+    }
+
+    @PreAuthorize("hasAuthority('USER')")
+    @Operation(summary = "The method for searching users",description = "Global search")
+    @GetMapping("/friends/search")
     public List<UserResponseGetAll> searchFriends(@RequestParam(required = false)String keyWord){
         return service.search(keyWord);
     }
