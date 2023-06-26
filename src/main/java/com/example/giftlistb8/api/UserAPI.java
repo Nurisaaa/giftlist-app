@@ -56,7 +56,7 @@ public class UserAPI {
     @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
     @Operation(summary = "The method for searching users",description = "Global search")
     @GetMapping("/search")
-    public List<GlobalSearchFriend> searchFriends(@RequestParam(required = false)String keyWord){
+    public List<UserResponseGetAll> searchFriends(@RequestParam(required = false)String keyWord){
         return service.search(keyWord);
     }
 }

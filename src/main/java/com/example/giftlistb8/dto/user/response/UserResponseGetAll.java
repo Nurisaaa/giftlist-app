@@ -10,4 +10,11 @@ public record UserResponseGetAll(
         int count,
         boolean isBlocked
 ) {
+    public UserResponseGetAll(Long id, String photo, String fullName, int count, boolean isBlocked) {
+        this.id = id;
+        this.photo = photo;
+        this.fullName = fullName;
+        this.count = count;
+        this.isBlocked = isBlocked;
+    }
 }

@@ -4,6 +4,7 @@ package com.example.giftlistb8.repositories;
 import com.example.giftlistb8.dto.profile.response.ProfileResponse;
 import com.example.giftlistb8.dto.profile.response.ProfileResponseGetById;
 import com.example.giftlistb8.dto.user.response.GlobalSearchFriend;
+import com.example.giftlistb8.dto.user.response.UserResponseGetAll;
 import com.example.giftlistb8.entities.User;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -66,19 +67,18 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(nativeQuery = true,value = "DELETE FROM holidays WHERE user_id = ?1")
     void deleteFromHoliday(Long userId);
 
-    @Query("SELECT NEW com.example.giftlistb8.dto.user.response.GlobalSearchFriend(u.id, CONCAT(u.firstName, ' ', u.lastName), ui.image, u.userInfo.phoneNumber, u.userInfo.dateOfBirth, u.userInfo.country, w.name, h.name, c.name, u.userInfo.hobby) " +
+    @Query("SELECT NEW com.example.giftlistb8.dto.user.response.UserResponseGetAll" +
+            "(u.id, ui.image, CONCAT(u.lastName, ' ', u.firstName), CAST(count(w.id) AS int), u.isBlocked) " +
             "FROM User u " +
-            "JOIN u.userInfo ui " +
+            "LEFT JOIN u.userInfo ui " +
             "LEFT JOIN u.wishes w " +
-            "LEFT JOIN w.holiday h " +
-            "LEFT JOIN u.charities c " +
-            "WHERE LOWER(u.firstName) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
-            "OR LOWER(u.lastName) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
-            "OR LOWER(u.userInfo.phoneNumber) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
-            "OR LOWER(u.userInfo.country) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
-            "OR LOWER(w.name) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
-            "OR LOWER(h.name) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
-            "OR LOWER(c.name) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
-            "OR LOWER(u.userInfo.hobby) LIKE LOWER(CONCAT('%', :keyword, '%'))")
-    List<GlobalSearchFriend> globalSearch(@Param("keyword") String keyword);
+            "WHERE u.id NOT IN (select u.id from User where u.role = 'ADMIN') AND " +
+            "  (LOWER(u.firstName) LIKE LOWER(CONCAT('%', :keyword, '%')) and u.role <> 'ADMIN') OR " +
+            "  (LOWER(u.lastName) LIKE LOWER(CONCAT('%', :keyword, '%')) and u.role <> 'ADMIN') OR " +
+            "  (LOWER(u.userInfo.phoneNumber) LIKE LOWER(CONCAT('%', :keyword, '%')) and u.role <> 'ADMIN') OR " +
+            "  (LOWER(u.userInfo.country) LIKE LOWER(CONCAT('%', :keyword, '%')) and u.role <> 'ADMIN') " +
+            "GROUP BY u.id, ui.image, u.lastName, u.firstName, u.isBlocked " +
+            "ORDER BY u.id DESC")
+    List<UserResponseGetAll> globalSearch(@Param("keyword") String keyword);
+
 }

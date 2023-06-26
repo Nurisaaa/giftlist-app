@@ -102,7 +102,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<GlobalSearchFriend> search(String keyWord) {
+    public List<UserResponseGetAll> search(String keyWord) {
         return userRepository.globalSearch(keyWord);
     }
 }
