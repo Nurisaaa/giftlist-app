@@ -11,4 +11,10 @@ public record HolidayResponse(
         String image,
         LocalDate date
 ) {
+    public HolidayResponse(Long id, String name, String image, LocalDate date) {
+        this.id = id;
+        this.name = name;
+        this.image = image;
+        this.date = date;
+    }
 }

@@ -36,8 +36,13 @@ public class HolidayServiceImpl implements HolidayService {
     private final HolidayRepositoryCustom holidayRepositoryCustom;
 
     @Override
-    public List<HolidayResponse> findAll() {
+    public List<HolidayResponse> findAll(String keyWord) {
         User user = jwtService.getUserInToken();
+
+        if (keyWord != null) {
+            return repository.globalSearch(keyWord, user.getId());
+        }
+
         String sql = "SELECT h.id,h.name, h.image, h.date FROM holidays h JOIN users u ON h.user_id = u.id WHERE u.email = ? ORDER BY h.id DESC ";
         List<HolidayResponse> holidays = jdbcTemplate.query(sql, new Object[]{user.getEmail()}, (rs, rowNum) ->
                 new HolidayResponse(
@@ -82,7 +87,8 @@ public class HolidayServiceImpl implements HolidayService {
 
         Holiday holiday = repository.findById(id).orElseThrow(() -> {
             log.error("Holiday with id {} not found.", id);
-            return new NotFoundException(String.format("Holiday with id %s not found.", id));});
+            return new NotFoundException(String.format("Holiday with id %s not found.", id));
+        });
 
         User userInToken = jwtService.getUserInToken();
         if (!userInToken.getHolidays().contains(holiday)) {
@@ -104,10 +110,5 @@ public class HolidayServiceImpl implements HolidayService {
     @Override
     public HolidayByIdResponse getById(Long id) {
         return holidayRepositoryCustom.getById(id);
-    }
-
-    @Override
-    public List<GlobalSearchHoliday> globalSearch(String keyWord) {
-        return repository.globalSearch(keyWord);
     }
 }

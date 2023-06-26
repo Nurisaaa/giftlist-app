@@ -26,8 +26,8 @@ public class HolidayAPI {
 
     @GetMapping
     @Operation(summary = "Get all holidays", description = "Get a list of all holidays")
-    public List<HolidayResponse> findAllHolidays() {
-        return service.findAll();
+    public List<HolidayResponse> findAllHolidays(@RequestParam(required = false) String keyWord) {
+        return service.findAll(keyWord);
     }
 
     @GetMapping("/details")
@@ -53,11 +53,7 @@ public class HolidayAPI {
     public SimpleResponse deleteHoliday(@RequestParam Long holidayId) {
         return service.delete(holidayId);
     }
-    @Operation(summary = "The method for searching holiday",description = "Global search of holiday")
-    @GetMapping("/search")
-    public List<GlobalSearchHoliday>globalSearch(@RequestParam(required = false) String keyWord){
-        return service.globalSearch(keyWord);
-    }}
+}
 
 
 

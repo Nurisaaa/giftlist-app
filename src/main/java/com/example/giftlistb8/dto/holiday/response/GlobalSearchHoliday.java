@@ -6,10 +6,14 @@ import java.time.LocalDate;
 @Builder
 public record GlobalSearchHoliday(
         Long id,
-        String firstName,
-        String lastName,
         String holidayName,
         String image,
         LocalDate date
 ) {
+    public GlobalSearchHoliday(Long id, String holidayName, String image, LocalDate date) {
+        this.id = id;
+        this.holidayName = holidayName;
+        this.image = image;
+        this.date = date;
+    }
 }

@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface HolidayService {
 
-    List<HolidayResponse> findAll();
+    List<HolidayResponse> findAll(String keyWord);
 
     SimpleResponse save(HolidayRequest request);
 
@@ -19,6 +19,4 @@ public interface HolidayService {
     SimpleResponse delete(Long id);
 
     HolidayByIdResponse getById(Long id);
-
-    List<GlobalSearchHoliday> globalSearch(String keyWord);
 }
