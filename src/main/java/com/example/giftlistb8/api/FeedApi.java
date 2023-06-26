@@ -29,7 +29,7 @@ public class FeedApi {
 
     @Operation(summary = "Get wish by id", description = "Returns a single wish by its id.")
     @GetMapping("/{wishId}")
-    private FeedResponseGetById getByIdWish(@PathVariable Long wishId) {
+    public FeedResponseGetById getByIdWish(@PathVariable Long wishId) {
         return feedService.getById(wishId);
     }
 }
