@@ -8,11 +8,9 @@ import com.example.giftlistb8.dto.wish.responses.WishResponse;
 import java.util.List;
 
 public interface WishService {
-    List<WishResponse> findAll();
+    List<WishResponse> findAll(String keyWord);
     WishResponse getById(Long id);
     SimpleResponse save(WishRequest request);
     SimpleResponse delete(Long id);
     SimpleResponse update(Long id, WishRequest request);
-
-    List<GlobalSearchWish> search(String keyWord);
 }

@@ -22,40 +22,33 @@ public class WishAPI {
 
     private final WishService service;
 
-    @PreAuthorize("hasAuthority('USER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
     @GetMapping
-    public List<WishResponse> findAllWishes(){
-    return service.findAll();
-}
+    public List<WishResponse> findAllWishes(@RequestParam(required = false) String keyWord) {
+        return service.findAll(keyWord);
+    }
 
     @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/{id}")
-    public WishResponse getById(@PathVariable Long id){
+    public WishResponse getById(@PathVariable Long id) {
         return service.getById(id);
     }
 
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping
-    public SimpleResponse save(@RequestBody WishRequest request){
+    public SimpleResponse save(@RequestBody WishRequest request) {
         return service.save(request);
     }
 
     @PreAuthorize("hasAuthority('USER')")
     @DeleteMapping
-    public SimpleResponse delete(@RequestParam Long id){
+    public SimpleResponse delete(@RequestParam Long id) {
         return service.delete(id);
     }
 
     @PreAuthorize("hasAuthority('USER')")
     @PutMapping
-    public SimpleResponse update(@RequestParam Long id,@RequestBody WishRequest request){
+    public SimpleResponse update(@RequestParam Long id, @RequestBody WishRequest request) {
         return service.update(id, request);
-    }
-
-    @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
-    @Operation(summary = "The method for searching wish",description = "Global search of wish")
-    @GetMapping("/search")
-    public List<GlobalSearchWish>globalSearches(@RequestParam(required = false) String keyWord){
-        return service.search(keyWord);
     }
 }

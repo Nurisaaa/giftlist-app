@@ -36,9 +36,12 @@ public class WishServiceImpl implements WishService {
     private final NotificationRepository notificationRepository;
 
     @Override
-    public List<WishResponse> findAll() {
+    public List<WishResponse> findAll(String keyWord) {
         log.info("Finding all wishes");
         User user = jwtService.getUserInToken();
+        if (keyWord != null){
+            return wishRepository.globalSearch(keyWord,user.getId());
+        }
         return wishRepository.findAllWishes(user.getId());
     }
 
@@ -127,10 +130,5 @@ public class WishServiceImpl implements WishService {
                 .status(HttpStatus.OK)
                 .message(String.format("Wish with name %s successfully updated.", id))
                 .build();
-    }
-
-    @Override
-    public List<GlobalSearchWish> search(String keyWord) {
-        return wishRepository.globalSearch(keyWord);
     }
 }
