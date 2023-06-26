@@ -80,20 +80,18 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "ORDER BY u.id DESC")
     List<UserResponseGetAll> globalSearch(@Param("keyword") String keyword);
 
-    @Query("SELECT NEW com.example.giftlistb8.dto.user.response.UserResponseGetAll" +
-            "(f.id, fu.image, CONCAT(f.lastName, ' ', f.firstName), CAST(count(fw.id) AS int), f.isBlocked) " +
+    @Query("SELECT NEW com.example.giftlistb8.dto.user.response.UserResponseGetAll(" +
+            "f.id, fu.image, CONCAT(f.lastName, ' ', f.firstName), CAST(count(fw.id) AS int), f.isBlocked) " +
             "FROM User u " +
-            "LEFT JOIN u.userInfo ui " +
-            "LEFT JOIN u.wishes w " +
-            "LEFT JOIN u.friends f " +
+            "JOIN u.friends f " +
             "LEFT JOIN f.userInfo fu " +
             "LEFT JOIN f.wishes fw " +
-            "WHERE u.id = :id AND" +
-            "  (LOWER(f.firstName) LIKE LOWER(CONCAT('%', :keyword, '%'))) OR " +
-            "  (LOWER(f.lastName) LIKE LOWER(CONCAT('%', :keyword, '%'))) OR " +
-            "  (LOWER(f.userInfo.phoneNumber) LIKE LOWER(CONCAT('%', :keyword, '%'))) OR " +
-            "  (LOWER(f.userInfo.country) LIKE LOWER(CONCAT('%', :keyword, '%'))) " +
+            "WHERE u.id = :id AND " +
+            "(f.firstName ILIKE CONCAT('%', :keyword, '%') and not u.id <> :id) OR " +
+            "(f.lastName ILIKE CONCAT('%', :keyword, '%') and not u.id <> :id) OR " +
+            "(f.userInfo.phoneNumber ILIKE CONCAT('%', :keyword, '%') and not u.id <> :id) " +
             "GROUP BY f.id, fu.image, f.lastName, f.firstName, f.isBlocked " +
             "ORDER BY f.id DESC")
-    List<UserResponseGetAll> searchFriends(String keyWord, Long id);
+    List<UserResponseGetAll> searchFriends(@Param("keyword") String keyword, @Param("id") Long id);
+
 }

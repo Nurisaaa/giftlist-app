@@ -60,9 +60,9 @@ public class UserAPI {
     }
 
     @PreAuthorize("hasAuthority('USER')")
-    @Operation(summary = "The method for searching users",description = "Global search")
+    @Operation(summary = "The method for searching friends",description = "Friend search")
     @GetMapping("/friends/search")
-    public List<UserResponseGetAll> searchFriends(@RequestParam(required = false)String keyWord){
-        return service.search(keyWord);
+    public List<UserResponseGetAll> searchFriends(@RequestParam(required = false) String keyWord){
+        return service.searchFriends(keyWord);
     }
 }

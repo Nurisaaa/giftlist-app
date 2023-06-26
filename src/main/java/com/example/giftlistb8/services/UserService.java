@@ -18,4 +18,5 @@ public interface UserService {
     SimpleResponse updateBlockedStatus(UpdateBlockStatus updateBlockStatus);
 
     List<UserResponseGetAll> search(String keyWord);
+    List<UserResponseGetAll> searchFriends(String keyWord);
 }

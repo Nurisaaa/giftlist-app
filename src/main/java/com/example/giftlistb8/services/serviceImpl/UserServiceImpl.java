@@ -23,6 +23,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 @Slf4j
 public class UserServiceImpl implements UserService {
     private final ComplaintRepository complaintRepository;
@@ -101,8 +102,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserResponseGetAll> search(String keyWord) {
-        Long id = jwtService.getUserInToken().getId();
-        return userRepository.searchFriends(keyWord,id);
+        return userRepository.globalSearch(keyWord);
+    }
+
+    @Override
+    public List<UserResponseGetAll> searchFriends(String keyWord) {
+        Long currentUserId = jwtService.getUserInToken().getId();
+        return userRepository.searchFriends(keyWord,currentUserId);
     }
 }
 
