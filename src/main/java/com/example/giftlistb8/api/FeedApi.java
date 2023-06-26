@@ -20,7 +20,7 @@ public class FeedApi {
     private final FeedService feedService;
 
     @Operation(summary = "Get all wishes", description = "Returns a paginated list of all wishes.")
-    @GetMapping("/search")
+    @GetMapping
     public PaginationResponse<FeedResponse> getAll(@RequestParam(defaultValue = "1") int page,
                                                    @RequestParam(defaultValue = "6") int size,
                                                    @RequestParam(required = false) String keyWord) {

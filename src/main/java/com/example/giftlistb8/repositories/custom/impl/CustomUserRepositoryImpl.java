@@ -32,6 +32,7 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
                 u.is_blocked as isBlocker
                 FROM users u
                          JOIN user_infos ui on u.user_info_id = ui.id
+                         WHERE u.role NOT IN ('ADMIN')
                 ORDER BY u.id DESC   \s
                 """;
         String countSql = "SELECT COUNT(*) FROM (" + sql + ") as count_query";

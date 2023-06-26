@@ -48,7 +48,7 @@ public class FeedServiceImpl implements FeedService {
                      w.is_blocked = false
                      AND (u.first_name ILIKE ? OR u.last_name ILIKE ? OR w.name ILIKE ?)
                  ORDER BY 
-                     u.id DESC\s
+                     w.id DESC\s
             """;
 
         String countSql = "SELECT COUNT(*) FROM (" + sql + ") AS count_query";

@@ -28,8 +28,8 @@ public class UserAPI {
     @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "Get all users", description = "Returns a paginated list of all users.")
     @GetMapping
-    public PaginationResponse<UserResponseGetAll> getAll(@RequestParam(defaultValue = "1") int page,
-                                                         @RequestParam(defaultValue = "6") int size) {
+    public PaginationResponse<UserResponseGetAll> getAll(@RequestParam(defaultValue = "1") int size,
+                                                         @RequestParam(defaultValue = "6") int page) {
         return service.getAllUsers(page, size);
     }
 
