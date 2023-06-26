@@ -93,5 +93,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "GROUP BY f.id, fu.image, f.lastName, f.firstName, f.isBlocked " +
             "ORDER BY f.id DESC")
     List<UserResponseGetAll> searchFriends(@Param("keyword") String keyword, @Param("id") Long id);
-
 }
