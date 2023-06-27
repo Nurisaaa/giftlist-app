@@ -21,35 +21,42 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", maxAge = 3600)
 @Tag(name = "Charity API",description = "API for managing charity organizations")
-@PreAuthorize("hasAuthority('USER')")
+
 public class CharityAPI {
 
     private final CharityService service;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('USER')")
     public List<CharitiesResponse> findAll() {
         return service.findAll();
     }
 
     @GetMapping("/profile")
+    @PreAuthorize("hasAuthority('USER')")
     public CharityResponse profile(@RequestParam Long id) {
         return service.findById(id);
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('USER')")
     public SimpleResponse save(@RequestBody @Valid CharityRequest request) {
         return service.save(request);
     }
 
     @PutMapping
+    @PreAuthorize("hasAuthority('USER')")
     public SimpleResponse update(@RequestBody @Valid CharityUpdateRequest request) {
         return service.update(request);
     }
 
     @DeleteMapping
+    @PreAuthorize("hasAuthority('USER')")
     public SimpleResponse delete(@RequestParam Long id) {
         return service.delete(id);
     }
+
+
     @Operation(summary = "The method for searching charities information",description = "Global search for charity")
     @GetMapping("/search")
     @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
