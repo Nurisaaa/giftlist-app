@@ -52,6 +52,7 @@ public class CharityAPI {
     }
     @Operation(summary = "The method for searching charities information",description = "Global search for charity")
     @GetMapping("/search")
+    @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
     public List<GlobalSearchCharity>globalSearches(@RequestParam(required = false) String keyWord){
         return service.globalSearch(keyWord);
     }
